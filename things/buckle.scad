@@ -1,6 +1,8 @@
 $fa = 4;
 $fs = 0.5;
 
+include <my_lib.scad>
+
 tolerance = 0.25;
 height = 8;
 radius = height/2;
@@ -17,8 +19,6 @@ pin_tolerance = 0.3;
 pin_space = 0.5;
 
 buckle();
-
-//translate([0, -25, 0]) ring_full();
 
 module ring() {
 	l = 20;
@@ -115,76 +115,3 @@ module buckle(){
 	translate([0, (width - t)/2, radius]) rotate([-90, 0, 0]) pin();
 }
 
-/////////////
-//lib stuff//
-/////////////
-
-module bigger(t = tolerance) {
-    if (t > 0) {
-        minkowski() {
-            child(0);
-            cube(t, true);
-        }
-    } else {
-        child(0);
-    }
-}
-
-module round(r = rounding) {
-	minkowski() {
-		child(0);
-		sphere(r);
-	}
-}
-
-module torus(r1 = 2, r2 = 1)
-{
-	rotate_extrude(convexity = 4)
-	translate([r1, 0, 0])
-	circle(r = r2);
-}
-
-module tube(outer_radius, inner_radius, height) {
-    difference() {
-        cylinder(h = height, r = outer_radius);
-        translate([ 0, 0, -1]) cylinder(h = height + 2, r = inner_radius);
-    }
-}
-
-module pie_slice(outer_radius, inner_radius, angle, height) {
-    o1 = outer_radius + 1;
-    blocking_half = [2* o1, o1, height + 1];
-	blocking_quarter = [o1, o1, height + 1];
-	if (angle <= 0) {
-		//nothing
-	} else if (angle <= 90) {
-		difference() {
-			tube(outer_radius, inner_radius, height);
-			translate([-o1, -o1, -0.5]) cube(blocking_half);
-			translate([-o1, -0.5, -0.5]) cube(blocking_quarter);
-			rotate([0,0,angle]) translate([0, 0, -0.5]) cube(blocking_quarter);
-		}
-	} else if (angle <= 180) {
-		difference() {
-			tube(outer_radius, inner_radius, height);
-			translate([-o1, -o1, -0.5]) cube(blocking_half);
-			rotate([0,0,angle]) translate([0, 0, -0.5]) cube(blocking_quarter);
-		}
-	} else if (angle <= 270) {
-		difference() {
-			tube(outer_radius, inner_radius, height);
-			translate([0, -o1, -0.5]) cube(blocking_quarter);
-			rotate([0,0,angle]) translate([0, 0, -0.5]) cube(blocking_quarter);
-		}
-	} else if (angle <= 360) {
-		difference() {
-			tube(outer_radius, inner_radius, height);
-			intersection() {
-				translate([0, -o1, -0.5]) cube(blocking_quarter);
-				rotate([0,0,angle]) translate([0, 0, -0.5]) cube(blocking_quarter);
-			}
-		}
-	} else {
-		tube(outer_radius, inner_radius, height);
-	}
-}

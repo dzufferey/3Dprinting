@@ -1,4 +1,4 @@
-//TODO for long surface do not forge to add corner pad to make it stick to the bed
+//TODO for long surface do not forget to add corner pad to make it stick to the bed
 
 h1 = 5; //for paint
 h2 = 10; //for water
@@ -75,7 +75,3 @@ module base()
 	}
 
 }
-
-/////////
-//utils//
-/////////

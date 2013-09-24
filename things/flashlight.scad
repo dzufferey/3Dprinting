@@ -1,11 +1,12 @@
 $fa = 4;
 $fs = 1;
 
+include <my_lib.scad>
+
 
 translate([ -diameter - 5, 0, 0]) rotate([0,0,-90]) supportFull();
 translate([diameter/2, -diameter/2 - clamp_thickness -1, 0]) clampFull();
 translate([diameter/2, diameter/2 + clamp_thickness + 1, 0]) clampFull();
-
 
 //supportFull();
 //clampFull();
@@ -220,75 +221,11 @@ module supportFull(){
     translate([-gap -10, 0, 0]) support_bridge();
 }
 
-//////////
-// Misc //
-//////////
-
-module bigger(t = tolerance) {
-    if (t > 0) {
-        minkowski() {
-            child(0);
-            cube(t, true);
-        }
-    } else {
-        child(0);
-    }
-}
-
 module dovetail(male = true, base = clamp_base, width = clamp_width) {
     t = male ? 0 : tolerance;
     translate([ - knob_height, 0, 0])
         rotate([90,0, 90])
             bigger(t)
                 trapeze(knob_height, width, base/2, base/3);
-}
-
-module trapeze(h, w, r1, r2, center = false) {
-    rotate([-90,0,0]) linear_extrude(height = w) projection(false) rotate([90,0,0]) cylinder(h, r1/2, r2/2, center);
-}
-
-module tube(outer_radius, inner_radius, height) {
-    difference() {
-        cylinder(h = height, r = outer_radius);
-        translate([ 0, 0, -1]) cylinder(h = height + 2, r = inner_radius);
-    }
-}
-
-module pie_slice(outer_radius, inner_radius, angle, height) {
-    o1 = outer_radius + 1;
-    blocking_half = [2* o1, o1, height + 1];
-	blocking_quarter = [o1, o1, height + 1];
-	if (angle <= 0) {
-		//nothing
-	} else if (angle <= 90) {
-		difference() {
-			tube(outer_radius, inner_radius, height);
-			translate([-o1, -o1, -0.5]) cube(blocking_half);
-			translate([-o1, -0.5, -0.5]) cube(blocking_quarter);
-			rotate([0,0,angle]) translate([0, 0, -0.5]) cube(blocking_quarter);
-		}
-	} else if (angle <= 180) {
-		difference() {
-			tube(outer_radius, inner_radius, height);
-			translate([-o1, -o1, -0.5]) cube(blocking_half);
-			rotate([0,0,angle]) translate([0, 0, -0.5]) cube(blocking_quarter);
-		}
-	} else if (angle <= 270) {
-		difference() {
-			tube(outer_radius, inner_radius, height);
-			translate([0, -o1, -0.5]) cube(blocking_quarter);
-			rotate([0,0,angle]) translate([0, 0, -0.5]) cube(blocking_quarter);
-		}
-	} else if (angle <= 360) {
-		difference() {
-			tube(outer_radius, inner_radius, height);
-			intersection() {
-				translate([0, -o1, -0.5]) cube(blocking_quarter);
-				rotate([0,0,angle]) translate([0, 0, -0.5]) cube(blocking_quarter);
-			}
-		}
-	} else {
-		tube(outer_radius, inner_radius, height);
-	}
 }
 
