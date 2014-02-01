@@ -130,7 +130,7 @@ var MAKE_SOLVER = function(){
 // https://github.com/kripken/emscripten/wiki/Interacting-with-code#accessing-memory
 // https://github.com/kripken/zee.js/blob/master/post.js
 // http://webcheatsheet.com/javascript/arrays.php
-// TODO use type arrays ?
+// TODO use typed arrays ?
 
   var pb = GLPK.glp_create_prob();
   GLPK.glp_term_out(GLPK.off);

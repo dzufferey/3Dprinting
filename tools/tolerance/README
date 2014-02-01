@@ -1,4 +1,5 @@
 TODO
 -acknowledgments
 -explain how it is working
+-web workers to process the vertices in parallel, create a JS file for the workers with GLPK and one for the master with three.js
 -...

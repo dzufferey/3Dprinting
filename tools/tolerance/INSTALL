@@ -7,6 +7,7 @@ TODO remove some function in order to minimize the JS size ?
 TODO keeping the simple double precision simplex only: at least divide by 2 the size of the JS.
 
 the symbols can be obtained from the elf binary with 'nm -D libglpk.so'
+http://romanegloo.wordpress.com/2012/03/29/generating-a-callgraph-by-using-doxygen-and-graphviz-13/
 
 CFLAGS=-O2 LDFLAGS=-s emconfigure ./configure
 emmake make -j6

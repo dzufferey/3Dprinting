@@ -73,6 +73,9 @@
         cube.castShadow = true;
         cube.receiveShadow = true;
         scene.add( cube );
+
+        //misc
+        window.addEventListener( 'resize', onWindowResize, false );
       }
 
       function render() {
