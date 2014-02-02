@@ -13,8 +13,48 @@ addEventListener('message', function(e) {
    var geometry = e.geometry;
    var startIdx = e.start;
    var endIdx = e.end;
-   //TODO the processing
-   postMessage( result);
+   var offset = e.offset;
+   //(1)
+   //  traverse the faces to know which ones are adjacent to the vertices we are processing
+   var inBounds = function(idx) { startIdx <= idx && idx < endIdx };
+   var vertexToFace = [];
+   var vertexNormal = [];
+   for (var i = 0; i < (endIdx - startIdx); i++) {
+       vertexToFace[i] = [];
+   }
+   for (var i = 0; i < geometry.faces.length; i++) {
+       var f = geometry.faces[i];
+       if ( (inBounds(f.a) || inBounds(f.b) || inBounds(f.c) ) {
+           //make an equation for the adjacent vertices
+           var eq = planeEquation(geometry.vertices[faces.a], f.normal, offset);
+           //store it into an easy-to-look-up place, also store the vertex normal
+           if (inBounds(f.a)) {
+               vertexToFace[f.a - startIdx].push(eq);
+               vertexNormal[f.a - startIdx] = f.vertexNormals[0];
+           }
+           if (inBounds(f.b)) {
+               vertexToFace[f.b - startIdx].push(eq);
+               vertexNormal[f.b - startIdx] = f.vertexNormals[1];
+           }
+           if (inBounds(f.c)) {
+               vertexToFace[f.c - startIdx].push(eq);
+               vertexNormal[f.c - startIdx] = f.vertexNormals[2];
+           }
+       }
+   }
+   //(2) compute the new points
+   //TODO (optional) report progress at different time intervals
+   var result = [];
+   for (var i = 0; i < endIdx - startIdx; i++) {
+       result[i] = getIntersection(vertexToFace[i], vertexNormal[i]);
+   }
+   //(3)
+   //  post the reply
+   postMessage( {
+       start: startIdx,
+       end: endIdx,
+       new_points: result
+   });
 }, false);
 
 //about the GLPK problem:

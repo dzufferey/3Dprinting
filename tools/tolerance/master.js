@@ -24,7 +24,7 @@ function addTolerance_dispatch(mesh, tolerance, nbWorkers) {
         onError: function(err) {
             document.getElementById('error').textContent = [
                 'ERROR: Line ', e.lineno, ' in ', e.filename, ': ', e.message
-                ].join('');
+            ].join('');
         },
         finalize: function() {
             //TODO
@@ -38,7 +38,8 @@ function addTolerance_dispatch(mesh, tolerance, nbWorkers) {
         var msg = {
           geometry: geometry,
           start: startIdx,
-          end: endIdx
+          end: endIdx,
+          offset: offset
         };
         var worker = new Worker('worker.js');
         worker.addEventListener('message', job.onMessage, false);
