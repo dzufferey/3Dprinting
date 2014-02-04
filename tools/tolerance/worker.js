@@ -61,7 +61,6 @@ addEventListener('message', function(e) {
 //(is three.js using quaternion ?)
 //the problem has 3 variables: x,y,z (coordinate of the intersection of the plan)
 //and as many constraint as there are adjacent face
-//TODO how to check that the problem is not underconstrained ?
 
 /* equation for a plan given by 3 points (a,b,c) in euclidian space
  * compute the normal: n = (b-a) × (c-a), better: ask three.js to compute the normals
@@ -83,7 +82,6 @@ function planeEquation(p, n, offset) {
     return eq;
 }
 
-//TODO should we relax the constraints to upper bound (half-spacees)
 //and have an optimization objtectif to push it close to the bound
 //a potential objective function is to push as far as possible in the direction of the normal of the vertex (as given by three.js)
 /**
@@ -110,7 +108,7 @@ function getIntersection(planes, vNormal) {
         ia[3*i+1] = i+1;    ja[3*i+1] = 1;  ar[3*i+1] = planes[i][0];
         ia[3*i+2] = i+1;    ja[3*i+2] = 2;  ar[3*i+2] = planes[i][1];
         ia[3*i+3] = i+1;    ja[3*i+3] = 3;  ar[3*i+3] = planes[i][2];
-        lp.set_row_bnds(i+1, GLPK.up, /*planes[i][3]*/ 0.0, planes[i][3]);
+        lp.set_row_bnds(i+1, GLPK.up, 0.0, planes[i][3]);
     }
     lp.load_matrix(3 * planes.length, ia, ja, ar);
     //objective: push as far a possible in the direction of the normal
@@ -128,6 +126,6 @@ function getIntersection(planes, vNormal) {
         lp.free();
         return res;
     } else {
-        //TODO raise an error
+        return undefined;//something went wrong. more details ?
     }
 }
