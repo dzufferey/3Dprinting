@@ -3,14 +3,16 @@ $fs = 0.5;
 
 include <my_lib.scad>
 
+//TODO support for the base
 
-translate([ 0, 0, 0]) schtroumpf(height = h);
-translate([ 6, 6, 0]) schtroumpf(angle = 90 - da, height = h/2);
-translate([12,12, 0]) schtroumpf(angle = 90 - da, height = h/2);
-translate([50,  0, 0])schtroumpf(angle = 180 - da, height = h);
-translate([52, 15, 0])schtroumpf(angle = 180 - da, height = h);
+//translate([ 0, 0, 0]) schtroumpf(height = h);
+//translate([ 6, 6, 0]) schtroumpf(angle = 90 - da, height = h/2);
+//translate([12,12, 0]) schtroumpf(angle = 90 - da, height = h/2);
+//translate([50,  0, 0])schtroumpf(angle = 180 - da, height = h);
+//translate([52, 15, 0])schtroumpf(angle = 180 - da, height = h);
 
-translate([ 30, 0, 0]) rotate([90,0,0]) base();
+//translate([ 30, 0, 0]) rotate([90,0,0]) base();
+baseWithSupport();
 
 ////////////////
 // parameters //
@@ -19,13 +21,13 @@ translate([ 30, 0, 0]) rotate([90,0,0]) base();
 //general
 filament = 1.8; //filament diameter
 tolerance = 0.15; //extra space between the parts
-knob_height = 5; //the height of the dovetails
-
-
+thickness = 1.5;
 flashlight_diameter = 30;
-
+inner_radius = flashlight_diameter / 2;
 da = 20;
 h = 7.5;
+nozzle = 0.3;
+gaps = 0.5;
 
 ////////////////
 ////////////////
@@ -49,10 +51,10 @@ module holder() {
 
 //find a better name ...
 module schtroumpf(	angle = 90,
-						inner_radius = 15,
-						height = 5,
-						thickness = 1.2,
-						tolerance = 0) {
+						inner_radius = inner_radius,
+						height = h,
+						thickness = thickness,
+						tolerance = tolerance) {
 
 	inner = inner_radius;
 	outer = inner + 2*thickness + filament;
@@ -71,8 +73,7 @@ module schtroumpf(	angle = 90,
 }
 
 //base: 4*h + 4*gaps
-module base(inner_radius = 15, thickness = 1.2) {
-	gaps = 0.5;
+module base(inner_radius = inner_radius, thickness = thickness) {
 	depth = 5 + 4*h + 4*gaps;
 
 	inner = inner_radius;
@@ -85,7 +86,7 @@ module base(inner_radius = 15, thickness = 1.2) {
 			cube([22, depth, 10]);
 			translate([11,0,outer+6]) rotate([-90,0,0]) {
 				difference() {
-					schtroumpf(180, 15, depth, thickness, 0);
+					schtroumpf(180, 15, depth, thickness, tolerance);
 					bigger(0.2) translate([middle, 0, 2.5]) cylinder(r=wall, h);
 					bigger(0.2) translate([-middle, 0, 2.5+2*gaps+1.5*h]) cylinder(r=wall, h);
 					bigger(0.2) translate([middle, 0, 2.5+4*gaps+3*h]) cylinder(r=wall, h);
@@ -93,5 +94,29 @@ module base(inner_radius = 15, thickness = 1.2) {
 			}
 		}
 		translate([2,-5,0]) holder();
+	}
+}
+
+module baseWithSupport(inner_radius = inner_radius, thickness = thickness) {
+	inner = inner_radius;
+	outer = inner + 2*thickness + filament;
+	middle = (inner+outer)/2;
+	union(){
+		rotate([90,0,0]) base(inner_radius, thickness);
+		translate([11,-outer-6,0]) {
+			translate([middle,0,0]) support();
+			translate([-middle,0,0]) support();
+		}
+	}
+}
+
+module support(thickness = thickness) {
+	depth = 5 + 4*h + 4*gaps;
+
+	for ( i = [0 : 3] )
+	{
+		rotate( (i+3) * 360 / 6, [0, 0, 1])
+		translate([filament/2+2*tolerance, 0, 0])
+		cube([1.2*thickness,nozzle,depth]);
 	}
 }
