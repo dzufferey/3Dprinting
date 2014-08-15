@@ -21,7 +21,13 @@ width = wheel_width + 2*wheel_gap + 2*fork_lip;
 
 //rotate to print
 print_rotation = atan2(delta_z, delta_x + width/2 -axle_radius +fork_thickness +1);
-rotate([0,print_rotation,0]) castor_wheel();
+union() {
+	translate([0,0,cos(print_rotation)*thickness+sin(print_rotation)*width/2])
+		rotate([0,print_rotation,0])
+			castor_wheel();
+	translate([0,pin_radius/3,0]) cube([13.5,0.3,13.5]);
+	translate([0,-pin_radius/3,0]) cube([13.5,0.3,13.5]);
+}
 
 
 module castor_half() {
