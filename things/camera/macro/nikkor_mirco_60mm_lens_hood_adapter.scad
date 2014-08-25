@@ -1,7 +1,7 @@
 $fa=4;
 $fs=0.5;
 
-include <my_lib.scad>
+include <../../my_lib.scad>
 
 //adapter that can mimic an hb-42 lens hood
 
