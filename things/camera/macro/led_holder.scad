@@ -16,6 +16,8 @@ height = 15;
 
 tolerance = 0.12;
 
+//TODO
+// - factor the nozzle size
 
 print_all();
 
@@ -32,13 +34,13 @@ module print_all(k=5, support=true){
 					}
 					rotate([0,0,-120]) pie_slice(6.3,6,60,base_diameter+2);
 					rotate([0,0,-135]) pie_slice(7.8,7.5,90,base_diameter+2);
-					rotate([0,0,-140]) pie_slice(8.9,8.6,100,base_diameter+26);
+					rotate([0,0,-140]) pie_slice(8.9,8.6,100,base_diameter+2);
 				}
 			}
 		}
 	}
 	translate([-(2+k*(base_diameter+1)),7,0]) back_cover(k);
-	translate([-(2+k*(base_diameter+1)),25,0]) snoot(k);
+	translate([-(2+k*(base_diameter+1)),30,20]) rotate([180,0,0]) snoot(k);
 }
 
 module led_base() {
@@ -67,6 +69,8 @@ module holder(k = 5) {
 		for(i = [0 : k-1]) {
 			translate([base_diameter/2+1+i*(base_diameter+1),base_diameter/2+1,height]) led_base();
 		}
+		//gap for wires
+		translate([total_x/2-2.5,-3,0]) cube([5,3,5]);
 	}
 }
 
@@ -75,10 +79,13 @@ module back_cover(k = 5) {
 	inner_y = base_diameter + 2 + 2*tolerance;
 	total_x = inner_x+2;
 	total_y = inner_y+2;
-	difference(){
-		cube([total_x,total_y,15]);
-		translate([1,1,1]) cube([inner_x,inner_y,15]);
-		translate([4,3,1]) cube([inner_x-6,inner_y,15]);
+	union() {
+		difference(){
+			cube([total_x,total_y,15]);
+			translate([1,1,1]) cube([inner_x,inner_y,15]);
+			translate([4,3,1]) cube([inner_x-6,inner_y,15]);
+		}
+		translate([1,1+inner_y/2,1]) cube([inner_x - 3, 0.6, 3]);
 	}
 }
 
@@ -96,20 +103,23 @@ module snoot(k = 5, length = 20) {
 			translate([total_x*2/3-2,-1,-1]) cube([4,total_y+2,9]);
 		}
 		translate([total_x/3+0.5-2,0,0]) {
-			translate([0,1,2]) rotate([0,90,0]) scale([1,0.25,1]) cylinder(r=2,h=3);
+			translate([0,1,2]) rotate([0,90,0]) scale([1,0.4,1]) cylinder(r=2,h=3);
 			cube([3,1,9]);
 		}
 		translate([total_x/3+0.5-2,total_y-1,0]) {
-			translate([0,0,2]) rotate([0,90,0]) scale([1,0.25,1]) cylinder(r=2,h=3);
+			translate([0,0,2]) rotate([0,90,0]) scale([1,0.4,1]) cylinder(r=2,h=3);
 			cube([3,1,9]);
 		}
 		translate([total_x*2/3+0.5-2,0,0]) {
-			translate([0,1,2]) rotate([0,90,0]) scale([1,0.25,1]) cylinder(r=2,h=3);
+			translate([0,1,2]) rotate([0,90,0]) scale([1,0.4,1]) cylinder(r=2,h=3);
 			cube([3,1,9]);
 		}
 		translate([total_x*2/3+0.5-2,total_y-1,0]) {
-			translate([0,0,2]) rotate([0,90,0]) scale([1,0.25,1]) cylinder(r=2,h=3);
+			translate([0,0,2]) rotate([0,90,0]) scale([1,0.4,1]) cylinder(r=2,h=3);
 			cube([3,1,9]);
+		}
+		for(i = [1 : k-1]) {
+			translate([1+space+i*(base_diameter+1),0,10]) cube([0.5,total_y,length-10]);
 		}
 	}
 }
