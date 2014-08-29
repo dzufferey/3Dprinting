@@ -1,7 +1,6 @@
 $fa=4;
 $fs=0.5;
 
-
 frame();
 
 //TODO
@@ -30,9 +29,14 @@ module frame(width = 122, depth = 120, thickness = 3) {
 	union(){
 		translate([-width/2,-depth/2,-thickness]) base(width, depth, thickness, 0.3);
 		translate([-40,-40,0]) uarm_support(height = 50);
+		//motors
 		translate([-width/2,0,0]) motor_mount(thickness);
 		translate([width/2,0,0]) rotate([0,0,180]) motor_mount(thickness);
+		//electronic
 		translate([27-2.5,-15,0]) rotate([0,0,90]) arduino_mount(peg = 20);
+		//to mount the castor wheels
+		translate([0,-depth/2-thickness,-thickness]) castor_frame_mount(thickness);
+		translate([0, depth/2,-thickness]) castor_frame_mount(thickness, 30);
 	}
 }
 
@@ -46,6 +50,29 @@ module base(width, depth, thickness = 3, rounding = 0.1) {
 		translate([rad, rad, 0]) cube([cx, cy, cz]);
 		cylinder(r=rad, h=eps);
 	}
+}
+
+/////////////////////////
+
+cmw = 20; //castor mount width
+
+module castor_frame_mount(thickness = 3, height = 20) {
+	translate([-cmw/2,0,0]) {
+		difference() {
+			cube([cmw,thickness,height]);
+			//TODO some holes/peg to attache the other part ??
+		}
+	}
+}
+
+module castor_mount(thickness = 3, height = 20) {
+	//what are the dimension of the wheels
+	castor_top = 15 + 20 + 3 + 1; //from ground
+	peg_radius = 2.5;
+	peg_height = 10; //without the pin lip
+	ground_clearance = 30 - 17 - thickness;
+	horizontal_space = 15 + 5 + 7; //tire to pin + 5
+	//TODO
 }
 
 /////////////////////////
