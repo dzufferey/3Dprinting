@@ -12,7 +12,7 @@ pin_diameter = 0.5;
 pin_spacing = 2.5; //center of wire, 1.25 from center of diode
 
 depth = 3;
-height = 15;
+height = 21;
 
 tolerance = 0.12;
 
@@ -20,34 +20,33 @@ tolerance = 0.12;
 // - factor the nozzle size
 
 print_all();
+//back_cover(5);
+//translate([0,0,20]) rotate([180,0,0]) snoot(5);
 
-module print_all(k=5, support=true){
+module print_all(k=5, support=12){
 	union() {
 		rotate([0,0,180]) {
 			holder_print(k);
-			if (support) {
-				translate([(1+k*(base_diameter+1))/2,5,0]) {
-					translate([0,0,base_diameter+1.9]) {
-						tube(6.3,6,6);
-						tube(7.8,7.5,6.5);
-						tube(8.9,8.6,7);
+			if (support > 0) {
+				translate([(1+k*(base_diameter+1))/2,10,0]) {
+					for (i = [1:support]) {
+						rotate([0,0,i*360/support])
+							translate([0,4.5,base_diameter+1.9])
+								cube([0.3,4.5,7]);
 					}
-					rotate([0,0,-120]) pie_slice(6.3,6,60,base_diameter+2);
-					rotate([0,0,-135]) pie_slice(7.8,7.5,90,base_diameter+2);
-					rotate([0,0,-140]) pie_slice(8.9,8.6,100,base_diameter+2);
 				}
 			}
 		}
 	}
-	translate([-(2+k*(base_diameter+1)),7,0]) back_cover(k);
-	translate([-(2+k*(base_diameter+1)),30,20]) rotate([180,0,0]) snoot(k);
+	translate([-(2+k*(base_diameter+1)),3,0]) back_cover(k);
+	translate([-(2+k*(base_diameter+1)),25,20]) rotate([180,0,0]) snoot(k);
 }
 
 module led_base() {
 	union() {
 		cylinder(r = base_diameter/2 + tolerance, h = height);
-		translate([0, pin_spacing/2,-20]) cylinder(r = pin_diameter/2 + 2*tolerance, h = 21);
-		translate([0,-pin_spacing/2,-20]) cylinder(r = pin_diameter/2 + 2*tolerance, h = 21);
+		translate([0, pin_spacing/2,-29]) cylinder(r = pin_diameter/2 + 2*tolerance, h = 30);
+		translate([0,-pin_spacing/2,-29]) cylinder(r = pin_diameter/2 + 2*tolerance, h = 30);
 	}
 }
 
@@ -62,7 +61,7 @@ module holder(k = 5) {
 	difference(){
 		union() {
 			cube([total_x,base_diameter+2, height+depth]);
-			translate([total_x/2,-17.5,5])
+			translate([total_x/2,-17.5,10])
 				rotate([-90,0,0])
 					import("external/ball_and_socket_chain_links_with_hole_through/only_socket.stl");
 		}
@@ -70,7 +69,7 @@ module holder(k = 5) {
 			translate([base_diameter/2+1+i*(base_diameter+1),base_diameter/2+1,height]) led_base();
 		}
 		//gap for wires
-		translate([total_x/2-2.5,-3,0]) cube([5,3,5]);
+		translate([total_x/2-2.5,-3,5]) cube([5,3,5]);
 	}
 }
 

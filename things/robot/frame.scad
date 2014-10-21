@@ -1,6 +1,8 @@
 $fa=4;
 $fs=0.5;
 
+tolerance=0.15;
+
 frame();
 
 //TODO
@@ -32,11 +34,11 @@ module frame(width = 122, depth = 120, thickness = 3) {
 		//motors
 		translate([-width/2,0,0]) motor_mount(thickness);
 		translate([width/2,0,0]) rotate([0,0,180]) motor_mount(thickness);
-		//electronic
-		translate([27-2.5,-15,0]) rotate([0,0,90]) arduino_mount(peg = 20);
 		//to mount the castor wheels
-		translate([0,-depth/2-thickness,-thickness]) castor_frame_mount(thickness);
+		translate([0,-depth/2-thickness,-thickness]) castor_frame_mount(thickness, 30);
 		translate([0, depth/2,-thickness]) castor_frame_mount(thickness, 30);
+		//electronic
+		//translate([27-2.5,-15,0]) rotate([0,0,90]) arduino_mount(peg = 20);
 	}
 }
 
@@ -56,44 +58,12 @@ module base(width, depth, thickness = 3, rounding = 0.1) {
 
 cmw = 20; //castor mount width
 
-module castor_frame_mount(thickness = 3, height = 20) {
+module castor_frame_mount(thickness = 3, height = 30) {
 	translate([-cmw/2,0,0]) {
 		difference() {
 			cube([cmw,thickness,height]);
 			//TODO some holes/peg to attache the other part ??
 		}
-	}
-}
-
-module castor_mount(thickness = 3, height = 20) {
-	//what are the dimension of the wheels
-	castor_top = 15 + 20 + 3 + 1; //from ground
-	peg_radius = 2.5;
-	peg_height = 10; //without the pin lip
-	ground_clearance = 30 - 17 - thickness;
-	horizontal_space = 15 + 5 + 7; //tire to pin + 5
-	//TODO
-}
-
-/////////////////////////
-
-module arduino_vertical_mount(thickness = 2, peg = 5, add_x = 0, add_z = 0) {
-	union() {
-		translate([-add_x,0,0]) cube([58+2*add_x, thickness, 54]);
-		translate([3,0,3]) rotate([90,0,0]) arduino_mount(peg = peg);
-	}
-}
-
-module arduino_mount(height = 3, peg = 5) {
-	//http://www.adafruit.com/datasheets/arduino_hole_dimensions.pdf
-	//PCB (without connector): 54 x 70mm
-	radius = 2.8 / 2; //hole is 3.2
-	thickness = 1.5;
-	union(){
-		translate([   0,    0, 0]) support_peg(radius, thickness, height, peg);
-		translate([ 1.3, 48.2, 0]) support_peg(radius, thickness, height, peg);
-		translate([52.1,  5.1, 0]) support_peg(radius, thickness, height, peg);
-		translate([52.1,   33, 0]) support_peg(radius, thickness, height, peg);
 	}
 }
 
@@ -111,8 +81,8 @@ module motor_mount_half(thickness = 3) {
 		union() {
 			translate([-thickness,-thickness,-thickness])
 				cube([motor_depth+thickness,motor_width+2*thickness,thickness]);
-			translate([-thickness,0,0])
-				cube([thickness,motor_width/2-r1,motor_width]);
+			translate([-thickness,-1,0])
+				cube([thickness,motor_width/2-r1+1,motor_width]);
 			difference() {
 				translate([-thickness,0,0])
 					cube([thickness,motor_width/2+1,motor_width/2]);
@@ -122,9 +92,9 @@ module motor_mount_half(thickness = 3) {
 			}
 			hull() {
 				translate([-thickness,-thickness,motor_width-thickness])
-					cube([thickness,thickness,thickness]);
+					cube([thickness,thickness-tolerance,thickness]);
 				translate([-thickness,-thickness,-thickness])
-					cube([motor_depth+thickness,thickness,thickness]);
+					cube([motor_depth+thickness,thickness-tolerance,thickness]);
 			}
 		}
 		translate([1,d1,d1]) rotate([0,-90,0]) cylinder(r=3.3/2, h=thickness+2);
@@ -156,7 +126,7 @@ module support_peg(radius, thickness, height, peg) {
 }
 
 module uarm_leg(height, peg_over) {
-	peg_radius = 3; // (7-1)/2
+	peg_radius = (7-2*tolerance)/2;
 	support_peg(peg_radius, 3, height, 10 + peg_over);
 }
 
