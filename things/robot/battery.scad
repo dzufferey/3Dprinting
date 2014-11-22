@@ -3,6 +3,10 @@ $fs=0.5;
 
 include<../my_lib.scad>
 
+
+//to hold the batteries in place: oogoo_spacer.scad
+//for the electric connections, I use thumb tacks.
+
 // AA battery: diameter = 14.5, height = 50.5
 //AAA battery: diameter = 10.5, height = 44.5
 

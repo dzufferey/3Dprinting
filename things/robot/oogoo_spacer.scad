@@ -7,6 +7,8 @@ include<../my_lib.scad>
 // mold for 'spacer' made out of oogoo //
 // used to hold the batteries in place //
 /////////////////////////////////////////
+// to learn how to make oogoo:
+// http://www.instructables.com/id/How-To-Make-Your-Own-Sugru-Substitute/
 
 //spacer_mold();
 spacer_mold(2,2,5,1.5,1.5,1,8);

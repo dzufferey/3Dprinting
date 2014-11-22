@@ -83,8 +83,11 @@ module back_cover(k = 5) {
 			cube([total_x,total_y,15]);
 			translate([1,1,1]) cube([inner_x,inner_y,15]);
 			translate([4,3,1]) cube([inner_x-6,inner_y,15]);
+			for(i = [0 : k-1]) {
+				translate([base_diameter/2+2+i*(base_diameter+1),1+inner_y/2,height]) led_base();
+			}
 		}
-		translate([1,1+inner_y/2,1]) cube([inner_x - 3, 0.6, 3]);
+		translate([1,1+inner_y/2-0.3,1]) cube([inner_x - 3, 0.6, 3]);
 	}
 }
 
