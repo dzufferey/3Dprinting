@@ -2,7 +2,7 @@ $fa=4;
 $fs=0.5;
 
 //for a pin
-include <external/NewPin.scad>
+include <../external/NewPin.scad>
 
 //for a wheel of radius 30mm and axle 5mm diameter
 
