@@ -12,7 +12,7 @@ frame();
 
 module frame() {
 	frontW = 25;
-	frontH = (cor+5+2*thickness+2.03);
+	frontH = cor+5+5+2*thickness+2.03;
 	frontA = 2 + 33;
 	servoClearance = 10-1-2.5+5;
 	union(){
@@ -27,16 +27,16 @@ module frame() {
 		translate([55,51/2-frontW/2,0]) {
 			difference(){
 				union(){
-					cube([2,frontW,frontH+2]);
+					cube([3,frontW,frontH+2]);
 					translate([0,0,frontH]) cube([frontA,frontW,2]);
 					translate([frontA,frontW/2,frontH]) cylinder(r=frontW/2,h=2);
 					difference(){
 						translate([15,(frontW/2-sWidth/2)-2,frontH+2]) cube([20,4+sWidth,20]);
 						translate([15,(frontW/2-sWidth/2),frontH+2+servoClearance]) bigger() cube([sHeight,sWidth,30]);
 					}
-					translate([frontA,frontW/2,frontH-2]) cylinder(r=axle_radius+2,h=4);
+					translate([frontA,frontW/2,frontH-7]) cylinder(r=axle_radius+2,h=9);
 				}
-				translate([frontA,frontW/2,frontH-5]) cylinder(r=axle_radius,h=10);
+				translate([frontA,frontW/2,frontH-10]) cylinder(r=axle_radius,h=15);
 				translate([frontA,frontW/2,frontH+2]) cylinder(r=frontW/2+3,h=servoClearance);
 			}
 		}

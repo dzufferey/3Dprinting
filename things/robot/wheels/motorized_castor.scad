@@ -26,10 +26,10 @@ width = wheel_width + 2*wheel_gap + 2*fork_lip;
 
 //objects
 
+translate([0,-18,0]) active_half();
 translate([27,0,0]) passive_half();
 translate([0,0,0]) support_beam();
-translate([0,-18,0]) active_half();
-translate([5,25,0]) servo_connector();
+translate([5,28,0]) servo_connector();
 
 //trapeze(thickness,10,7,5);
 
@@ -46,8 +46,8 @@ module support_beam() {
 		trapeze(3,length,7,5);
 		translate([0,offset1,0]){
 			difference(){
-				cylinder(r=axle_radius-0.2, h=10);
-				translate([-0.5,-5,9]) cube([1,10,2]);
+				cylinder(r=axle_radius-0.2, h=15);
+				translate([-0.5,-5,15-thickness]) cube([1,10,thickness]);
 			}
 		}
 		translate([0,offset2,0]){
@@ -64,13 +64,16 @@ module support_beam() {
 module servo_connector() {
 	union() {
 		difference() {
-			cube([17,6,thickness]);
-			for(i = [1,2,3,6,7,8]) {
+			union() {
+				cube([17,6,thickness]);
+				translate([27/2,3,0]) cylinder(r=4.5,h=thickness);
+			}
+			for(i = [1,2,3]) {
 				translate([i*3,3,-0.5]) cylinder(r=0.8,h=thickness+1);
 			}
-			translate([27/2,3,thickness - 2]) cylinder(r=2.5,h=3);
+			translate([27/2,3,-1]) cylinder(r=2.5,h=thickness+2);
 		}
-		translate([27/2-(1-tolerance)/2, 0, thickness - 2]) cube([1-tolerance,6,1]);
+		translate([27/2-(1-tolerance)/2, 0, 0]) cube([1-tolerance,6,thickness]);
 	}
 }
 
