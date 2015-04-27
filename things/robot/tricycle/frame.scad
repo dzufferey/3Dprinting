@@ -5,7 +5,7 @@ use <../external/NewPin.scad>
 include <../wheels/motorized_castor.scad>
 
 
-//translate([-10,-20,0])
+translate([-10,-26,0])
 rotate([0,0,-90])
 frame();
 

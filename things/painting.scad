@@ -7,11 +7,13 @@ thickness = 1;
 length = 20;
 tolerance = 0.2;
 
-//for (t = [ [0,0,0],
-//			[length + 2, 0, 0],
-//			[0, length + 2, 0],
-//			[length + 2, length + 2, 0] ])
-//	translate(t) paint_bucket();
+/*
+for (t = [[0,0,0],
+			[length + 2, 0, 0],
+			[0, length + 2, 0],
+			[length + 2, length + 2, 0] ])
+	translate(t) paint_bucket();
+*/
 //water_bucket();
 base();
 
