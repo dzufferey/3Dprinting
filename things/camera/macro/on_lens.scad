@@ -19,7 +19,7 @@ module on_lens(k = 4, thickness = 2, support = 12)
 						rotate([-90,0,0])
 							ball();
 					if (support > 0) {
-						translate([50+thickness,0,0])
+						translate([0,50+thickness,0])
 							union() {
 								cylinder(r=7, h=0.3);
 								for (i = [1 : support])
