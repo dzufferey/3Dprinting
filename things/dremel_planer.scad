@@ -1,8 +1,8 @@
 
 climb = true; //climb or conventional
 cutter_radius = 1.6;
-cutter_length = 10;
-cutter_offset = 25; //length between threaded adapter and start of cutting flute
+cutter_length = 12;
+cutter_offset = 22; //length between threaded adapter and start of cutting flute
 cutting_depth = 1.6; // <= 2 * cutter_radius
 length = 100;
 width = 40; // + 15 for dremel adapter
