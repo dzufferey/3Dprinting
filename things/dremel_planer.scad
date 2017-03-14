@@ -34,6 +34,8 @@ module planer() {
         translate([-length/2+5,0,0]) cube([length/2 - 20,width, cutter_offset]);
         translate([-10,15,0]) cube([20, width, cutter_offset]);
         translate([0,cutter_radius,0]) rotate([0,0,45]) translate([-cc/2,-cc/2,h]) cube([cc,cc,cutter_length]);
+        translate([length/2,o1,0]) rotate([0,0,45]) translate([-corner_chamfer/2,-corner_chamfer/2,h]) cube([corner_chamfer,corner_chamfer,cutter_length]);
+        translate([-length/2,o2,0]) rotate([0,0,45]) translate([-corner_chamfer/2,-corner_chamfer/2,h]) cube([corner_chamfer,corner_chamfer,cutter_length]);
     }
 }
 
