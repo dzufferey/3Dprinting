@@ -3,11 +3,13 @@
 ## Models
 
 * in the [vise.scad](vise.scad) file
-    - `fixed_jaw`
-    - `movable_jaw`
-    - `back_guide`
+    - [`fixed_jaw`](fixed_jaw.stl)
+    - [`movable_jaw`](movable_jaw.stl)
+    - [`back_guide`](back_guide.stl)
     - `parallel` (optional, come in different heights)
-* for the knob at the end: I used http://www.thingiverse.com/thing:664192 to generate a knob for M6 nut
+* for the [M6 knob](M6_knob.stl) I used http://www.thingiverse.com/thing:664192 to generate the model.
+
+The file [`all_parts.stl`](all_parts.stl) contains all the parts
 
 ## BoM
 

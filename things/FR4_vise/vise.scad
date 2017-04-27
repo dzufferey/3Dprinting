@@ -123,10 +123,10 @@ module all_parts(){
     translate([0, 0,0]) fixed_jaw();
     translate([55, -10,0]) rotate([0,0,180]) movable_jaw();
     translate([0, -50, 0]) back_guide();
-    
+
     // Some parallels of different height
     // Rotated upside-down for easier printing
-    translate([-10, -50, 0]) {
+    translate([-10, -45, 0]) {
         translate([0, 10, 12]) rotate([0,180,0]) parallel(extra_height = 2);
         translate([0, 20, 12]) rotate([0,180,0]) parallel(extra_height = 2);
         translate([0, 30, 15]) rotate([0,180,0]) parallel(extra_height = 5);
@@ -134,6 +134,8 @@ module all_parts(){
         translate([0, 50, 18]) rotate([0,180,0]) parallel(extra_height = 8);
         translate([0, 60, 18]) rotate([0,180,0]) parallel(extra_height = 8);
     }
+
+    translate([-25, -55, 0]) import("M6_knob.stl");
 }
 
 all_parts();
