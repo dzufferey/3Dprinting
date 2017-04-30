@@ -11,11 +11,11 @@
 
 The file [`all_parts.stl`](all_parts.stl) contains all the parts
 
-## BoM
+## Bill of materials
 
-* 2x 6mm ∅ steel rods (length ?)
-* 4x 3mm ∅ dowel pins of length 15mm (3.2mm pins should provide an even better fit but I'm in a metric country...)
-* 1x M6 threaded rod (length ?)
+* 2x 6mm ∅ steel rods (length ~123mm)
+* 4x 3mm ∅ dowel pins of length 15mm (3.2mm pins should provide a better fit but I'm in a metric country...)
+* 1x M6 threaded rod (length ~123mm)
 * 5x M6 nuts
 * 1x M6 washer
 * 2x M4 screws
@@ -26,9 +26,9 @@ The file [`all_parts.stl`](all_parts.stl) contains all the parts
 1. Preparing the printed parts:
     * Print a copy of `fixed_jaw`, `movable_jaw`, and `back_guide`. The models print well without support.
     * Clean the part and make sure the holes have the right size (ream them using 6/4/3mm drill bits)
-2. Preparing the non-printer parts
-    * Take 2 M6 nuts and grind two opposite corners to make the nuts _squarish_. These nuts will go into the movable jaw and making them square keeps them from moving.
-    * Take 2 M6 nuts and grind them until the exterior is round and has a diameter of 9mm. These nuts will go into the fixed jaw and hold the threaded rod.
+2. Preparing the non-printed parts
+    * Take 2 M6 nuts and grind two opposite corners to make the nuts _squarish_. These nuts will go into the movable jaw and making them square keeps them from rotating.
+    * Take 2 M6 nuts and grind them until the exterior is round and has a diameter of 9mm. These nuts will go into the fixed jaw and hold the threaded rod. These nuts will keep the threaded rod from sliding in the fixed jaw.
 3. Assembly
     * Put the dowel pins in the holes of the fixed jaw and back guide and secure them with glue.
     * Slide the two 6mm rods in the fixed jaw and secure them with glue.
